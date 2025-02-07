@@ -1,0 +1,10 @@
+{
+    "sex": "F",
+    "genotype": "aldh1l1-gcamp8s",
+    "DOB": "2024-08-13",
+    "DOS": "2025-01-20",
+    "protocol": "modularpy",
+    "subject": "MOUSE01",
+    "session": "01",
+    "Task": "dev"
+}
