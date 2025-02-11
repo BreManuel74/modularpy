@@ -34,13 +34,13 @@ class EncoderWidget(QWidget):
         self.layout.addWidget(self.plot_widget)
         self.setLayout(self.layout)
 
-        self.plot_widget.setTitle('Encoder Speed')
-        self.plot_widget.setLabel('left', 'Speed', units='m/s')
+        self.plot_widget.setTitle('Lick Detection')
+        self.plot_widget.setLabel('left', 'Change in Capacitance')
         self.plot_widget.setLabel('bottom', 'Time', units='s')
         self.speed_curve = self.plot_widget.plot(pen='y')
 
         # Limit the range of the y-axis to +/- 2
-        self.plot_widget.setYRange(-1, 1)
+        self.plot_widget.setYRange(-1, 3)
         self.plot_widget.showGrid(x=True, y=True)
         
         #================================= SerialWorker Signals ================================#
