@@ -1,0 +1,8 @@
+Parameter,Value
+bids_dir,C:\Users\Brenna\OneDrive - The Pennsylvania State University\Desktop\Modularpy\modularpy\Experiment\data\sub-Algernon\ses-01
+encoder_file_path,C:\Users\Brenna\OneDrive - The Pennsylvania State University\Desktop\Modularpy\modularpy\Experiment\data\sub-Algernon\ses-01\beh\20250212_164108_sub-Algernon_ses-01_task-task_encoder-data.csv
+notes_file_path,C:\Users\Brenna\OneDrive - The Pennsylvania State University\Desktop\Modularpy\modularpy\Experiment\data\sub-Algernon\ses-01\20250212_164108_sub-Algernon_ses-01_task-task_notes.txt
+save_dir,C:\Users\Brenna\OneDrive - The Pennsylvania State University\Desktop\Modularpy\modularpy\Experiment\data
+session,01
+subject,Algernon
+task,task
