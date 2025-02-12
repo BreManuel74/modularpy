@@ -223,7 +223,8 @@ class HardwareManager:
                 sample_interval=params.get('sample_interval_ms'),
                 wheel_diameter=params.get('diameter_mm'),
                 cpr=params.get('cpr'),
-                development_mode=params.get('development_mode')
+                development_mode=params.get('development_mode'),
+                resistor=params.get('resistor')
             )
          
 

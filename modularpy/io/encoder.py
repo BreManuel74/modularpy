@@ -41,6 +41,7 @@ class SerialWorker(QThread):
                  sample_interval: int, 
                  wheel_diameter: float,
                  cpr: int,
+                 resistor: int,
                  development_mode: bool = True):
         
         super().__init__()
@@ -52,6 +53,7 @@ class SerialWorker(QThread):
         self.sample_interval_ms = sample_interval
         self.diameter_mm = wheel_diameter
         self.cpr = cpr
+        self.resistor = resistor
 
         self.init_data()
 

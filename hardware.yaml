@@ -11,3 +11,4 @@ encoder:
   diameter_mm: 80
   sample_interval_ms: 50
   development_mode: False
+  resistor: 1 MegaOhm

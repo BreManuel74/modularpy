@@ -20,7 +20,7 @@ class EncoderWidget(QWidget):
 
         # Status label to show connection status
         self.status_label = QLabel("Click 'Start Live View' to begin.")
-        self.info_label = QLabel(f'Viewing data from {self.encoder} at Port: {self.encoder.serial_port} | Baud: {self.encoder.baud_rate} | CPR: {self.encoder.cpr} | Diameter (mm): {self.encoder.diameter_mm}')
+        self.info_label = QLabel(f'Viewing data from {self.encoder} at Port: {self.encoder.serial_port} | Baud: {self.encoder.baud_rate} | Resistor: {self.encoder.resistor}')
         self.start_button = QPushButton("Start Live View")
         self.start_button.setCheckable(True)
         self.plot_widget = pg.PlotWidget()
