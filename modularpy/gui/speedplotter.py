@@ -76,7 +76,7 @@ class EncoderWidget(QWidget):
         self.times = self.times[-100:]
         self.speeds = self.speeds[-100:]
         self.update_plot()
-        self.status_label.setText(f"Speed: {speed:.2f} m/s")
+
 
     def update_plot(self):
         try:
