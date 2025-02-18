@@ -30,7 +30,7 @@ class SerialWorker(QThread):
     serialDataReceived = pyqtSignal(int) # Emits each time a new encoder reading is captured
     serialStreamStarted = pyqtSignal() # Emits when the streaming thread starts running
     serialStreamStopped = pyqtSignal() # Emits when the streaming thread stops running
-    serialCapacitanceUpdated = pyqtSignal(float, int) # Emits the elapsed time (float) and current speed (float)
+    serialCapacitanceUpdated = pyqtSignal(float, int) # Emits the elapsed time (float) and current capacitance (int)
     # ======================================================== #
 
     def __init__(self, 
@@ -161,7 +161,7 @@ class SerialWorker(QThread):
             self.licks.append(lick)
             self.clicks.append(position_change)
 
-            # Emit a signal for speed update
+            # Emit a signal for capacitance update
             self.serialCapacitanceUpdated.emit((current_time - self.start_time), lick)
         except Exception as e:
             print(f"Exception in processData: {e}")

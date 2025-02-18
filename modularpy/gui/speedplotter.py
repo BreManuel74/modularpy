@@ -37,7 +37,7 @@ class EncoderWidget(QWidget):
         self.plot_widget.setTitle('Lick Detection')
         self.plot_widget.setLabel('left', 'Change in Capacitance')
         self.plot_widget.setLabel('bottom', 'Time', units='s')
-        self.speed_curve = self.plot_widget.plot(pen='y')
+        self.capacitance_curve = self.plot_widget.plot(pen='y')
 
         # Limit the range of the y-axis to +/- 2
         self.plot_widget.setYRange(-1, 1000)
@@ -82,7 +82,7 @@ class EncoderWidget(QWidget):
         try:
             if self.times and self.licks:
                 # Update the curve with the last 100 data points
-                self.speed_curve.setData(self.times, self.licks)
+                self.capacitance_curve.setData(self.times, self.licks)
                 # Adjust x-axis range to show the recent data points
                 self.plot_widget.setXRange(self.times[0], self.times[-1], padding=0)
             else:
