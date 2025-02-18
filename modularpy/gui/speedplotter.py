@@ -47,7 +47,7 @@ class EncoderWidget(QWidget):
         # self.encoder.serialStreamStarted.connect(self.start_live_view)
         # self.encoder.serialDataReceived.connect(self.process_data)
         # self.encoder.serialStreamStopped.connect(self.stop_timer)
-        self.encoder.serialSpeedUpdated.connect(self.receive_speed_data) 
+        self.encoder.serialCapacitanceUpdated.connect(self.receive_lick_data) 
         #========================================================================================#
 
     def init_data(self):
@@ -69,7 +69,7 @@ class EncoderWidget(QWidget):
         if self.encoder is not None:
             self.encoder.stop()
 
-    def receive_speed_data(self, time, lick):
+    def receive_lick_data(self, time, lick):
         self.times.append(time)
         self.licks.append(lick)
         # Keep only the last 100 data points

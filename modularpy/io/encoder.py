@@ -17,22 +17,20 @@ class SerialWorker(QThread):
         1. `serialDataReceived` (pyqtSignal(int)): Emits each time a new encoder reading is captured.
         2. `serialStreamStarted` (pyqtSignal()): Emits when the streaming thread starts running.
         3. `serialStreamStopped` (pyqtSignal()): Emits when the streaming thread stops running.
-        4. `serialSpeedUpdated` (pyqtSignal(float, float)): Emits the elapsed time and current speed.
+        4. `serialCapacitanceUpdated` (pyqtSignal(float, int)): Emits the elapsed time and current capacitance.
     
     Core Methods:
     
         `start()`: Initiates the thread and emits serialStreamStarted.
         `stop()`: Requests the thread interruption, waits for it, and emits serialStreamStopped.
-        `get_data()`: Returns a DataFrame containing stored encoder readings, time, and computed speeds.
-        `process_data(position_change)`: Updates and stores the computed speed using the encoder clicks.
-        `calculate_speed(delta_clicks, delta_time)`: Performs speed calculation in meters/second.
+        `get_data()`: Returns a DataFrame containing stored encoder readings, time, and capacitance.
     """
     
     # ===================== PyQt Signals ===================== #
     serialDataReceived = pyqtSignal(int) # Emits each time a new encoder reading is captured
     serialStreamStarted = pyqtSignal() # Emits when the streaming thread starts running
     serialStreamStopped = pyqtSignal() # Emits when the streaming thread stops running
-    serialSpeedUpdated = pyqtSignal(float, int) # Emits the elapsed time (float) and current speed (float)
+    serialCapacitanceUpdated = pyqtSignal(float, int) # Emits the elapsed time (float) and current speed (float)
     # ======================================================== #
 
     def __init__(self, 
@@ -95,7 +93,7 @@ class SerialWorker(QThread):
                 self.stored_data.append(clicks)  # Store data for later retrieval
                 self.serialDataReceived.emit(clicks)  # Emit PyQt signal for real-time plotting
                 
-                # Optionally, simulate processing the data for speed calculation
+                # Optionally, simulate processing the data for capacitance
                 self.process_data(clicks)
             except Exception as e:
                 print(f"Exception in DevelopmentSerialWorker: {e}")
@@ -154,8 +152,8 @@ class SerialWorker(QThread):
             # Use fixed delta_time based on sample interval
             delta_time = self.sample_interval_ms / 1000.0  # Convert milliseconds to seconds
 
-            # Calculate speed
-            lick = int(self.arduino.readline().decode('utf-8').strip())
+            #capacitance readout
+            lick = int(float(self.arduino.readline().decode('utf-8').strip()))
 
             # Update data lists
             current_time = time.time()
@@ -164,7 +162,7 @@ class SerialWorker(QThread):
             self.clicks.append(position_change)
 
             # Emit a signal for speed update
-            self.serialSpeedUpdated.emit((current_time - self.start_time), lick)
+            self.serialCapacitanceUpdated.emit((current_time - self.start_time), lick)
         except Exception as e:
             print(f"Exception in processData: {e}")
         
