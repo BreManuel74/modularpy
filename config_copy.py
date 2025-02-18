@@ -221,6 +221,8 @@ class HardwareManager:
                 serial_port=params.get('port'),
                 baud_rate=params.get('baudrate'),
                 sample_interval=params.get('sample_interval_ms'),
+                wheel_diameter=params.get('diameter_mm'),
+                cpr=params.get('cpr'),
                 development_mode=params.get('development_mode'),
                 resistor=params.get('resistor')
             )

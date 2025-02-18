@@ -40,7 +40,7 @@ class EncoderWidget(QWidget):
         self.speed_curve = self.plot_widget.plot(pen='y')
 
         # Limit the range of the y-axis to +/- 2
-        self.plot_widget.setYRange(-1, 1000)
+        self.plot_widget.setYRange(-1, 3)
         self.plot_widget.showGrid(x=True, y=True)
         
         #================================= SerialWorker Signals ================================#
@@ -52,7 +52,7 @@ class EncoderWidget(QWidget):
 
     def init_data(self):
         self.times = []
-        self.licks = []
+        self.speeds = []
         self.start_time = None
         self.timer = None
         self.previous_time = 0
@@ -69,20 +69,20 @@ class EncoderWidget(QWidget):
         if self.encoder is not None:
             self.encoder.stop()
 
-    def receive_speed_data(self, time, lick):
+    def receive_speed_data(self, time, speed):
         self.times.append(time)
-        self.licks.append(lick)
+        self.speeds.append(speed)
         # Keep only the last 100 data points
         self.times = self.times[-100:]
-        self.licks = self.licks[-100:]
+        self.speeds = self.speeds[-100:]
         self.update_plot()
 
 
     def update_plot(self):
         try:
-            if self.times and self.licks:
+            if self.times and self.speeds:
                 # Update the curve with the last 100 data points
-                self.speed_curve.setData(self.times, self.licks)
+                self.speed_curve.setData(self.times, self.speeds)
                 # Adjust x-axis range to show the recent data points
                 self.plot_widget.setXRange(self.times[0], self.times[-1], padding=0)
             else:

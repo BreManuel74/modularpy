@@ -32,13 +32,15 @@ class SerialWorker(QThread):
     serialDataReceived = pyqtSignal(int) # Emits each time a new encoder reading is captured
     serialStreamStarted = pyqtSignal() # Emits when the streaming thread starts running
     serialStreamStopped = pyqtSignal() # Emits when the streaming thread stops running
-    serialSpeedUpdated = pyqtSignal(float, int) # Emits the elapsed time (float) and current speed (float)
+    serialSpeedUpdated = pyqtSignal(float, float) # Emits the elapsed time (float) and current speed (float)
     # ======================================================== #
 
     def __init__(self, 
                  serial_port: str, 
                  baud_rate: int, 
                  sample_interval: int, 
+                 wheel_diameter: float,
+                 cpr: int,
                  resistor: int,
                  development_mode: bool = True):
         
@@ -49,6 +51,8 @@ class SerialWorker(QThread):
         self.serial_port = serial_port
         self.baud_rate = baud_rate
         self.sample_interval_ms = sample_interval
+        self.diameter_mm = wheel_diameter
+        self.cpr = cpr
         self.resistor = resistor
 
         self.init_data()
@@ -57,7 +61,7 @@ class SerialWorker(QThread):
     def init_data(self):
         self.stored_data = []
         self.times = []
-        self.licks = []
+        self.speeds = []
         self.clicks = []
         self.start_time = None
 
@@ -155,29 +159,43 @@ class SerialWorker(QThread):
             delta_time = self.sample_interval_ms / 1000.0  # Convert milliseconds to seconds
 
             # Calculate speed
-            lick = int(self.arduino.readline().decode('utf-8').strip())
+            speed = self.calculate_speed(position_change, delta_time)
 
             # Update data lists
             current_time = time.time()
             self.times.append(current_time - self.start_time)
-            self.licks.append(lick)
+            self.speeds.append(speed)
             self.clicks.append(position_change)
 
             # Emit a signal for speed update
-            self.serialSpeedUpdated.emit((current_time - self.start_time), lick)
+            self.serialSpeedUpdated.emit((current_time - self.start_time), speed)
         except Exception as e:
             print(f"Exception in processData: {e}")
+
+
+    def calculate_speed(self, delta_clicks, delta_time):
+        """Calculates speed of a wheel with diameter_mm in meters/second
+        """
+        #TODO: it is preferable to have this function in a separate module
+        
+        reverse = 1  # Placeholder for direction configuration
+        diameter_m = self.diameter_mm / 1000.0 #convert millimeters to meters
+        rotations = delta_clicks / self.cpr
+        distance = reverse * rotations * (math.pi * diameter_m)  # Circumference * rotations
+        speed = distance / delta_time
+        return speed
+    
         
     def get_data(self):
         from pandas import DataFrame
 
         clicks = self.clicks
         times = self.times
-        licks = self.licks
+        speeds = self.speeds
         data = {
             'Clicks': clicks,
             'Time': times,
-            'Lick': licks
+            'Speed': speeds
         }
         encoder_df = DataFrame(data)
         return encoder_df
@@ -186,7 +204,7 @@ class SerialWorker(QThread):
     def clear_data(self):
         self.stored_data = []
         self.times = []
-        self.licks = []
+        self.speeds = []
         self.start_time = time.time()
     
 
