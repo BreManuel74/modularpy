@@ -7,8 +7,6 @@ encoder:
   type: "lick detector"
   port: "COM4"
   baudrate: 9600
-  cpr: 2400
-  diameter_mm: 80
   sample_interval_ms: 50
   development_mode: False
   resistor: 1 MegaOhm
