@@ -147,8 +147,8 @@ class ExperimentConfig:
         data = {prop: getattr(self, prop) for prop in properties if prop not in exclude_properties}
         return pd.DataFrame(data.items(), columns=['Parameter', 'Value'])
                 
-    def save_wheel_encoder_data(self, data):
-        """ Save the wheel encoder data to a CSV file 
+    def save_encoder_data(self, data):
+        """ Save the encoder data to a CSV file 
         """
         if isinstance(data, list):
             data = pd.DataFrame(data)

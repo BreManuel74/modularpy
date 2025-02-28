@@ -24,10 +24,7 @@ if TYPE_CHECKING:
 
 
 class ConfigController(QWidget):
-    """AcquisitionEngine object for the napari-modularpy plugin.
-    The object connects to the Micro-Manager Core object instances and the Config object.
-
-    The ConfigController widget is a QWidget that allows the user to select a save directory,
+    """The ConfigController widget is a QWidget that allows the user to select a save directory,
     load a JSON configuration file, and edit the configuration parameters in a table.
     
     The ConfigController widget emits signals to notify other widgets when the configuration is updated
